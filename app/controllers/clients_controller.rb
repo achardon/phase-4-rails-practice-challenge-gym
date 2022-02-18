@@ -7,9 +7,10 @@ rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     def show
         client = Client.find(params[:id])
-        amount = client.total_memb_amount
-        client_with_amount = {client: client, totat_memberships_amount: amount}
-        render json: client_with_amount
+        # the below works too if not using serializer (render client_with_amount instead of client)
+        # amount = client.total_memb_amount
+        # client_with_amount = {client: client, totat_memberships_amount: amount}
+        render json: client, serializer: ClientShowSerializer
     end
 
     def update
