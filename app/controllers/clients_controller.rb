@@ -7,7 +7,9 @@ rescue_from ActiveRecord::RecordNotFound, with: :not_found
 
     def show
         client = Client.find(params[:id])
-        render json: client
+        amount = client.total_memb_amount
+        client_with_amount = {client: client, totat_memberships_amount: amount}
+        render json: client_with_amount
     end
 
     def update
@@ -15,6 +17,8 @@ rescue_from ActiveRecord::RecordNotFound, with: :not_found
         client.update!(client_params)
         render json: client
     end
+
+    
 
     private
 
@@ -25,5 +29,7 @@ rescue_from ActiveRecord::RecordNotFound, with: :not_found
     def not_found
         render json: {error: "Client Not Found"}, status: :not_found
     end
+
+    
 
 end
